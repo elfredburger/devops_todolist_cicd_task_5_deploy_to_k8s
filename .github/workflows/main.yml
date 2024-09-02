@@ -160,7 +160,8 @@ jobs:
     - name: helm install dry run
       run: helm install todoapp ./helm-charts/todoapp/ --dry-run
     - name: helm install
-      run: helm upgrade --install todoapp ./helm-charts/todoapp/ \
+      run: |
+        helm upgrade --install todoapp ./helm-charts/todoapp/ \
         --atomic --wait --timeout 3600s --debug \
         -f ./todoapp/values.yaml \
         --set mysql.configs.MYSQL_ROOT_PASSWORD="${{ secrets.MYSQL_ROOT_PASSWORD }}" \
