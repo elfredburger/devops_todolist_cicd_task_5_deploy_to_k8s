@@ -150,13 +150,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: List files for debug
-      run: |
-        echo "Current directory:"
-        pwd
-        echo "Listing files:"
-        ls -R
-
     - name: kind cluster create
       uses: helm/kind-action@v1
       with:
