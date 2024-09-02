@@ -21,7 +21,7 @@ on:
 jobs:
   helm-deploy:
     runs-on: ubuntu-latest
-    name: Helm Deploy
+    name: helm Deploy
     environment: development
     steps:
       - name: Set Up Helm
@@ -30,14 +30,14 @@ jobs:
       - name: Download Helm Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: helm-artifacts
+          name: helm-package
           path: .
 
       - name: Download Python Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: python-artifacts
-          path: python-artifacts
+          name: helm-artifacts
+          path: .
 
       - name: Set Up Kubectl
         uses: azure/setup-kubectl@v4
