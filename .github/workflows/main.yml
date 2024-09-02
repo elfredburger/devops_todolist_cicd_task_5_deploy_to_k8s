@@ -146,7 +146,6 @@ jobs:
       with:
         cluster_name: todoapp
         config: ./cluster.yml
-        wait: 60
     - name: helm install dry run
       run: helm install todoapp ./helm-charts/todoapp/ --dry-run
     - name: helm install
