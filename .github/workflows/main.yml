@@ -130,3 +130,14 @@ jobs:
       version: ${{ github.sha }}
       helm-values-path: ./helm-charts/todoapp/values.yaml
       helm-release-name: todoapp-dev
+
+  deploy-helm-stage:
+    name: helm deploy
+    uses: ./.github/workflows/developement.yml
+    needs: [helm-ci, python-ci]
+    secrets: inherit
+    with:
+      environment: staging
+      version: ${{ github.sha }}
+      helm-values-path: ./helm-charts/todoapp/values.yaml
+      helm-release-name: todoapp-stage
