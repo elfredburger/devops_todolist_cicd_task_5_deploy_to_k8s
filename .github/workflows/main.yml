@@ -128,5 +128,5 @@ jobs:
     with:
       environment: development
       version: ${{ github.sha }}
-      helm-values-path: ./todoapp/values.yaml
+      helm-values-path: ./helm-charts/todoapp/values.yaml
       helm-release-name: todoapp-dev
