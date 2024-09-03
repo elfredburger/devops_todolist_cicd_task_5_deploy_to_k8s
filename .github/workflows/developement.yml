@@ -1,4 +1,4 @@
-name: helm-upgrade
+name: helm-deploy
 
 run-name: ${{ github.actor }} - ${{ github.ref_name }}
 
@@ -67,7 +67,7 @@ jobs:
       - name: Helm Install
         run: |
           helm upgrade --install ${{ inputs.helm-release-name }} ./helm-charts/todoapp/ \
-            --atomic --wait --timeout 3600s --debug \
+            --atomic --wait --timeout 3m0s --debug \
             -f ${{ inputs.helm-values-path }} \
             --set mysql.configs.MYSQL_ROOT_PASSWORD="${{ secrets.MYSQL_ROOT_PASSWORD }}" \
             --set mysql.configs.MYSQL_USER="${{ secrets.MYSQL_USER }}" \
@@ -77,5 +77,6 @@ jobs:
             --set todoapp.secrets.DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
             --set todoapp.secrets.DB_HOST="${{ secrets.DB_HOST }}" \
             --set todoapp.secrets.SECRET_KEY="${{ secrets.SECRET_KEY }}" \
+            --set todoapp.image.repository=${{ secrets.DOCKERHUB_USERNAME }}/todoapp \
             --set global.environment=${{ inputs.environment }} \
-            --set todoapp.image.version="${{ inputs.environment }}"
+            --set todoapp.image.tag="${{ inputs.version }}
