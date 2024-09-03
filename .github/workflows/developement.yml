@@ -78,5 +78,5 @@ jobs:
             --set todoapp.secrets.DB_HOST="${{ secrets.DB_HOST }}" \
             --set todoapp.secrets.SECRET_KEY="${{ secrets.SECRET_KEY }}" \
             --set todoapp.image.repository=${{ secrets.DOCKERHUB_USERNAME }}/todoapp \
-            --set global.environment=${{ inputs.environment }} \
-            --set todoapp.image.tag="${{ inputs.version }}
+            --set global.environment="${{ inputs.environment }}" \
+            --set todoapp.image.tag="${{ inputs.version }}"
