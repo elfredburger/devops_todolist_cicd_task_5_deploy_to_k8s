@@ -119,6 +119,7 @@ jobs:
       with:
         name: helm-package
         path: ./*.tgz
+<<<<<<< HEAD
 
   deploy-helm-dev:
     name: Deploy Helm
@@ -128,3 +129,27 @@ jobs:
     with:
       environment: development
       version: ${{ github.sha }}
+=======
+
+  deploy-helm-dev:
+    name: helm deploy
+    uses: ./.github/workflows/developement.yml
+    needs: [helm-ci, python-ci]
+    secrets: inherit
+    with:
+      environment: development
+      version: ${{ github.sha }}
+      helm-values-path: ./helm-charts/todoapp/values.yaml
+      helm-release-name: todoapp-dev
+
+  deploy-helm-stage:
+    name: helm deploy
+    uses: ./.github/workflows/developement.yml
+    needs: deploy-helm-dev
+    secrets: inherit
+    with:
+      environment: staging
+      version: ${{ github.sha }}
+      helm-values-path: ./helm-charts/todoapp/values/stg.yaml
+      helm-release-name: todoapp-stage
+>>>>>>> main
