@@ -134,10 +134,10 @@ jobs:
   deploy-helm-stage:
     name: helm deploy
     uses: ./.github/workflows/developement.yml
-    needs: [helm-ci, python-ci]
+    needs: deploy-helm-dev
     secrets: inherit
     with:
       environment: staging
       version: ${{ github.sha }}
-      helm-values-path: ./helm-charts/todoapp/values.yaml
+      helm-values-path: ./helm-charts/todoapp/values/sth.yaml
       helm-release-name: todoapp-stage
