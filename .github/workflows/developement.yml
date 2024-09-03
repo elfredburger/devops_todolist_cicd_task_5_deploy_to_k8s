@@ -17,27 +17,32 @@ on:
         description: 'Path to the helm values file'
         type: string
         default: './helm-charts/todoapp/values.yaml'
-
+      helm-release-name:
+        description: 'Name of the helm release'
+        type: string
+        default: 'todoapp'
 jobs:
   helm-deploy:
     runs-on: ubuntu-latest
-    name: helm Deploy
-    environment: development
+    name: ${{ inputs.environment}}
+    environment: ${{ inputs.environment }}
     steps:
-      - name: Set Up Helm
-        uses: azure/setup-helm@v4.2.0
 
-      - name: Download Helm Artifacts
+
+      - name: Download Helm Package
         uses: actions/download-artifact@v4
         with:
           name: helm-package
           path: .
 
-      - name: Download Python Artifacts
+      - name: Download Helm Artifacts
         uses: actions/download-artifact@v4
         with:
           name: helm-artifacts
           path: .
+
+      - name: Set Up Helm
+        uses: azure/setup-helm@v4.2.0
 
       - name: Set Up Kubectl
         uses: azure/setup-kubectl@v4
@@ -53,10 +58,15 @@ jobs:
 
       - name: Helm Install Dry Run
         run: helm install todoapp ./helm-charts/todoapp/ --dry-run
-
+      - name: List files for debug
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Listing files:"
+          ls -R
       - name: Helm Install
         run: |
-          helm upgrade --install todoapp ./helm-charts/todoapp/ \
+          helm upgrade --install ${{ inputs.helm-release-name }} ./helm-charts/todoapp/ \
             --atomic --wait --timeout 3600s --debug \
             -f ${{ inputs.helm-values-path }} \
             --set mysql.configs.MYSQL_ROOT_PASSWORD="${{ secrets.MYSQL_ROOT_PASSWORD }}" \
@@ -67,4 +77,5 @@ jobs:
             --set todoapp.secrets.DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
             --set todoapp.secrets.DB_HOST="${{ secrets.DB_HOST }}" \
             --set todoapp.secrets.SECRET_KEY="${{ secrets.SECRET_KEY }}" \
-            --set todoapp.image.version="${{ github.sha }}"
+            --set global.environment=${{ inputs.environment }} \
+            --set todoapp.image.version="${{ inputs.environment }}"
