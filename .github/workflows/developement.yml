@@ -52,8 +52,10 @@ jobs:
       - name: Set Up Kubectl
         uses: azure/setup-kubectl@v4
 
+
       - name: Checkout Code
         uses: actions/checkout@v4
+
 
       - name: Create Kind Cluster
         uses: helm/kind-action@v1
@@ -72,7 +74,7 @@ jobs:
           ls -R
       - name: Helm Install
         run: |
-          helm upgrade --install --atomic --debug --wait --timeout 3m0s \
+          helm upgrade --install --atomic --debug --wait --timeout 1000s \
           ${{ inputs.helm-release-name }} ./todoapp-*.tgz \
           -f ${{ inputs.helm-values-path }} \
           --set mysql.secrets.MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
@@ -84,4 +86,4 @@ jobs:
           --set todoapp.secrets.DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
           --set todoapp.secrets.DB_HOST=${{ secrets.DB_HOST }} \
           --set todoapp.image.repository=${{ secrets.DOCKERHUB_USERNAME }}/todoapp \
-          --set todoapp.image.tag="${{ inputs.version }}"
+          --set todoapp.image.tag=${{ inputs.version }}
