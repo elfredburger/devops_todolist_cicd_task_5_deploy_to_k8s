@@ -126,7 +126,7 @@ jobs:
     needs: [helm-ci, python-ci]
     secrets: inherit
     with:
-      environment: development
+      environment: developement
       version: ${{ github.sha }}
       helm-values-path: ./helm-charts/todoapp/values.yaml
       helm-release-name: todoapp-dev
