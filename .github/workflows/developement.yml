@@ -73,7 +73,7 @@ jobs:
       - name: Helm Install
         run: |
 
-          helm upgrade --install --atomic --debug --wait --timeout 3m0s \
+          helm upgrade --install --atomic --debug --wait --timeout 5m0s \
           ${{ inputs.helm-release-name }} ./todoapp-*.tgz \
           -f ${{ inputs.helm-values-path }} \
           --set mysql.secrets.MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
