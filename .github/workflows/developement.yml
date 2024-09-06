@@ -72,6 +72,7 @@ jobs:
           ls -R
       - name: Helm Install
         run: |
+
           helm upgrade --install --atomic --debug --wait --timeout 3m0s \
           ${{ inputs.helm-release-name }} ./todoapp-*.tgz \
           -f ${{ inputs.helm-values-path }} \
@@ -85,3 +86,4 @@ jobs:
           --set todoapp.secrets.DB_HOST=${{ secrets.DB_HOST }} \
           --set todoapp.image.repository=${{ secrets.DOCKERHUB_USERNAME }}/todoapp \
           --set todoapp.image.tag="${{ inputs.version }}"
+
