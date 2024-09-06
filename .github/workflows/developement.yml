@@ -1,5 +1,6 @@
 
 
+name: helm-deploy
 
 run-name: ${{ github.actor }} - ${{ github.ref_name }}
 
@@ -31,7 +32,7 @@ jobs:
     steps:
 
 
-      - name: Download Helm Package
+      - name: download helm package
         uses: actions/download-artifact@v4
         with:
           name: helm-package
