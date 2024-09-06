@@ -74,7 +74,12 @@ jobs:
           ls -R
       - name: Helm Install
         run: |
+<<<<<<< HEAD
           helm upgrade --install --atomic --debug --wait --timeout 1000s \
+=======
+
+          helm upgrade --install --atomic --debug --wait --timeout 3m0s \
+>>>>>>> e0971d3a4977ce5ef15869995bd7d4f9c6e2d9bf
           ${{ inputs.helm-release-name }} ./todoapp-*.tgz \
           -f ${{ inputs.helm-values-path }} \
           --set mysql.secrets.MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
@@ -86,4 +91,9 @@ jobs:
           --set todoapp.secrets.DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
           --set todoapp.secrets.DB_HOST=${{ secrets.DB_HOST }} \
           --set todoapp.image.repository=${{ secrets.DOCKERHUB_USERNAME }}/todoapp \
+<<<<<<< HEAD
           --set todoapp.image.tag=${{ inputs.version }}
+=======
+          --set todoapp.image.tag="${{ inputs.version }}"
+
+>>>>>>> e0971d3a4977ce5ef15869995bd7d4f9c6e2d9bf
