@@ -63,14 +63,22 @@ jobs:
           config: cluster.yml
 
       - name: Helm Install Dry Run
-        run: helm install todoapp ./helm-charts/todoapp/ --dry-run
-
-      - name: List files for debug
         run: |
-          echo "Current directory:"
-          pwd
-          echo "Listing files:"
-          ls -R
+          helm install --dry-run ${{ inputs.helm-release-name }} ./todoapp-*.tgz  \
+          -f ${{ inputs.helm-values-path }} \
+          --set mysql.secrets.MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
+          --set mysql.secrets.MYSQL_USER=${{ secrets.MYSQL_USER }} \
+          --set mysql.secrets.MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
+          --set todoapp.secrets.SECRET_KEY=${{ secrets.SECRET_KEY }} \
+          --set todoapp.secrets.DB_NAME=${{ secrets.DB_NAME }} \
+          --set todoapp.secrets.DB_USER=${{ secrets.DB_USER }} \
+          --set todoapp.secrets.DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+          --set todoapp.secrets.DB_HOST=${{ secrets.DB_HOST }} \
+          --set todoapp.image.repository=${{ secrets.DOCKERHUB_USERNAME }}/todoapp \
+          --set todoapp.image.tag="${{ inputs.version }}"
+
+
+
       - name: Helm Install
         run: |
 
